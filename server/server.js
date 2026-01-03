@@ -1,12 +1,8 @@
 const express = require("express")
 const app = express()
+const taskRouter = require("./src/routers/taskRouter.js")
 
-
-app.get("/",(req,res)=>{
-    res.json({
-        message:"This is a get request"
-    })
-})
+app.use("/api/v1/tasks",taskRouter)
 app.listen(8001,()=>{
     console.log("server is running")
 })

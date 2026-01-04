@@ -40,7 +40,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                     </tbody>
                 </table>
                 {
-                    TotalHours ? <div className='bg-white mt-4 px-4  py-4 md:px-10 md:py-5 rounded-lg'>
+                    TotalHours ? <div className={`${darkMode? 'bg-white': 'bg-secondary'} mt-4 px-4  py-4 md:px-10 md:py-5 rounded-lg`}>
                         <p>
                             {TotalHours ? `The total hours allocated = ${TotalHours} hrs` : null}
                         </p>
@@ -81,7 +81,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                     </tbody>
                 </table>
                 {
-                    saveHours ? <div className='bg-white mt-4 px-4  py-4 md:px-10 md:py-5  rounded-lg'>
+                    saveHours ? <div className={`${darkMode? 'bg-white': 'bg-secondary'} mt-4 px-4  py-4 md:px-10 md:py-5 rounded-lg`}>
                         <p>
                             {saveHours ? `You Could Have Saved = ${saveHours} hrs` : null}
                         </p>
@@ -90,7 +90,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                 }
 
             </div>
-            
+
 
         </div>
     )

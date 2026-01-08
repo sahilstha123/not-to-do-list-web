@@ -5,14 +5,10 @@ module.exports = (schema) => (req, res, next) => {
     next();
   } catch (err) {
 
-    const errors = Array.isArray(err.issues)
-      ? err.issues.map(e => e.message)
-      : [err.message || "Validation failed"];
-
     return res.status(400).json({
       success: false,
       message: "Validation failed",
-      errors,
+      errors: err.flatten()
     });
   }
 };

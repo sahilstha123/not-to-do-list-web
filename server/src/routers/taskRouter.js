@@ -1,45 +1,16 @@
 const express = require("express")
 const router = express.Router()
 
-const {getTasks, CreateTasks} = require("../controllers/taskController.js")
+const {getTasks, createTasks, updateTasks} = require("../controllers/taskController.js")
 
 
 router.get("/",getTasks)
-router.post("/",CreateTasks)
 
-//patch
-// router.patch("/:id", (req, res) => {
-//   try {
-//     const { id } = req.params
-//     const { type } = req.body
+router.post("/",createTasks)
 
-//     const task = fakeTasksDb.find((item) => item.id == id)
-//     console.log("tasks",task)
+router.patch("/:id",updateTasks)
 
-//     if (!task)
-//       return res.status(404).json({
-//         success: false,
-//         message: "Tasks Not found"
-//       })
-//     if (type) {
-//       task.type = type
-//     }
 
-//     res.status(200).json({
-//       success: true,
-//       message: "Task updated successfully",
-//       data: task
-//     })
-
-//   } catch (error) {
-//     console.error(error)
-//     res.status(500).json({
-//       success: false,
-//       message: "Internal server error"
-//     })
-
-//   }
-// })
 
 // //delete
 // router.delete("/:id", (req, res) => {

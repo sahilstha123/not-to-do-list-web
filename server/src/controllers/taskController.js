@@ -3,11 +3,6 @@ const TaskCollection = require("../models/Task.js")
 exports.getTasks = async (req, res) => {
   
     const tasks = await TaskCollection.find()
-    if (tasks.length === 0)
-      return res.status(404).json({
-        success: false,
-        message: "Tasks not found"
-      })
     res.status(200).json({
       success: true,
       message: "Data fetched successfully",
@@ -20,14 +15,8 @@ exports.getTasks = async (req, res) => {
 
 exports.createTasks = async (req, res) => {
 
-    console.log(req.body, "-------")
     const { task, hours, } = req.body
-    if (!task || !hours || typeof hours !== "number")
-      return res.status(400).json({
-        success: false,
-        message: "Invalid input"
-      })
-
+  
     const existingTask = await TaskCollection.findOne({ task: task.trim() })
     if (existingTask)
       return res.status(409).json({

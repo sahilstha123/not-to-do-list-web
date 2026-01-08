@@ -1,10 +1,9 @@
 const TaskCollection = require("../models/Task.js")
-
 // get all the tasks
 exports.getTasks = async (req, res) => {
-  try {
+  
     const tasks = await TaskCollection.find()
-    if (!tasks)
+    if (tasks.length === 0)
       return res.status(404).json({
         success: false,
         message: "Tasks not found"
@@ -12,26 +11,23 @@ exports.getTasks = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Data fetched successfully",
-      tasks
+      data: tasks
     })
 
-  } catch (error) {
-    console.error(error)
-  }
 }
 
 // create a new Tasks
 
 exports.createTasks = async (req, res) => {
-  try {
+
     console.log(req.body, "-------")
     const { task, hours, } = req.body
-    if (!task || !hours || typeof hours !== "number") {
-      res.status(400).json({
+    if (!task || !hours || typeof hours !== "number")
+      return res.status(400).json({
         success: false,
         message: "Invalid input"
       })
-    }
+
     const existingTask = await TaskCollection.findOne({ task: task.trim() })
     if (existingTask)
       return res.status(409).json({
@@ -50,45 +46,51 @@ exports.createTasks = async (req, res) => {
       data: newTask
     })
 
-
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: "Internal Server error" })
-
-  }
-
 }
 
 // update a tasks
 exports.updateTasks = async (req, res) => {
 
-  try {
     const { id } = req.params
     const { type } = req.body
 
-    const task = await TaskCollection.findById(id)
-    console.log("---patch---", task)
+    const updatedTask = await TaskCollection.findByIdAndUpdate(id,
+      { type },
+      { new: true, runValidators: true }
+    )
 
-    if (!task)
+    if (!updatedTask)
       return res.status(404).json({
         success: false,
         message: "Task not found"
       })
 
-    if (type) {
-      task.type = type
-    }
-
-    await task.save()
-
     res.status(200).json({
       success: true,
       message: "Type Update successfully",
-      data: task
+      data: updatedTask
     })
 
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: "Internal Server error" })
-  }
+}
+
+//Delete a Tasks
+
+exports.deleteTasks = async (req, res) => {
+
+    const { id } = req.params
+
+    const deletedTask = await TaskCollection.findByIdAndDelete(id)
+
+    if (!deletedTask)
+      return res.status(404).json({
+        success: false,
+        message: "Task Not found"
+      })
+
+    res.status(200).json({
+      success: true,
+      message: "Task deleted successfully",
+      data: deletedTask
+
+    })
 }

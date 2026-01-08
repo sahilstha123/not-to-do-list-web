@@ -10,6 +10,8 @@ app.use(express.json());
 
 app.use("/api/v1/tasks",taskRouter)
 
+app.use(require("./src/middlewares/errorHandler.js"))
+
 app.listen(8001,()=>{
     console.log("server is running")
 })

@@ -21,6 +21,9 @@ Unlike a traditional to-do list, the app focuses on identifying **bad habits or 
 ---
 
 ## Project Structure
-├── client/        # React frontend
-├── server/        # Node.js + Express backend
-├── README.md      # Project overview (this file)
+```text
+not-to-do-list/
+├── client/
+├── server/
+└── README.md
+```

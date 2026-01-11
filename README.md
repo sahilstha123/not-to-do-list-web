@@ -51,3 +51,8 @@ cd client
 npm install
 npm run dev
 ```
+
+## Author
+
+- **Sahil Shrestha**
+- GitHub: [sahilstha123](https://github.com/sahilstha123)

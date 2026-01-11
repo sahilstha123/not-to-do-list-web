@@ -19,3 +19,6 @@ Unlike a traditional to-do list, the app focuses on identifying **bad habits or 
 - Both lists are displayed in **seperated tables**
 
 ---
+
+## Project Structure
+|- Client/

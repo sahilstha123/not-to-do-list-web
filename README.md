@@ -27,3 +27,10 @@ not-to-do-list/
 ├── server/
 └── README.md
 ```
+## Getting Started
+
+### Clone the repository
+```bash 
+git clone https://github.com/sahilstha123/not-to-do-list-web.git
+cd not-to-do-list
+```

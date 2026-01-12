@@ -24,7 +24,7 @@ export const ToastProvider = ({ children }) => {
       {children}
 
       {/* Toast wrapper bottom-right */}
-      <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end">
+      <div className="fixed top-5 right-5 z-50 flex flex-col items-end">
         {toasts.map((t) => (
           <Toast key={t.id} {...t} onClose={removeToast} />
         ))}

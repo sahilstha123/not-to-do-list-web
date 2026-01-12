@@ -18,14 +18,14 @@ const Toast = ({ id, message, type = "info", onClose, duration = 3000 }) => {
   // Determine border and text colors based on type
   const borderColor =
     type === "success"
-      ? "border-l-4 border-green-500"
+      ? "border-l-4 border-green-500 bg-green-100"
       : type === "error"
-      ? "border-l-4 border-red-500"
+      ? "border-l-4 border-red-500 bg-red-100"
       : "border-l-4 border-blue-500";
 
   const textColor =
     type === "success"
-      ? "text-green-600"
+      ? "text-green-700"
       : type === "error"
       ? "text-red-600"
       : "text-blue-600";
@@ -35,7 +35,7 @@ const Toast = ({ id, message, type = "info", onClose, duration = 3000 }) => {
       className={`
         transform transition-all duration-300
         ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}
-        flex items-center justify-between w-80 max-w-xs px-4 py-3 mb-2 rounded shadow-lg bg-white ${borderColor} ${textColor}
+        flex items-center justify-between w-80 max-w-xs px-4 py-3 mb-2 rounded shadow-lg  ${borderColor} ${textColor}
       `}
     >
       <span className="text-sm">{message}</span>

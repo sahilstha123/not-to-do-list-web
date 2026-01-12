@@ -46,7 +46,7 @@ const Footer = ({ darkMode }) => {
           &copy; {new Date().getFullYear()} Not-To-Do List
         </p>
         <p className="text-xs mt-1">
-          Built with <span className="text-red-500">❤️</span> using React & MERN Stack
+          Built by <span className="text-red-500">❤️</span> Sahil Shrestha
         </p>
       </div>
     </footer>

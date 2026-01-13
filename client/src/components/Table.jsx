@@ -14,7 +14,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
             <div className={`w-full max-w-md ${darkMode ? 'text-black' : 'text-white'} font-robotoMono`}>
                 <h2 className={`font-bold text-lg mb-2 ${darkMode ? 'text-white' : 'text-black'}`}>Entry List</h2>
                 <hr className='border-gray-400 my-3' />
-                <table className={`w-full text-left rounded-lg overflow-hidden shadow-md ${darkMode ? 'bg-white' : 'bg-secondary'}`}>
+                {entryList.length>0 && (<table className={`w-full text-left rounded-lg overflow-hidden shadow-md ${darkMode ? 'bg-white' : 'bg-secondary'}`}>
                     <thead>
                         <tr className='border-b border-gray-300'>
                             <th className='px-4 py-2'>Task</th>
@@ -38,7 +38,8 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table>)}
+                
                 {
                     TotalHours ? <div className={`${darkMode? 'bg-white': 'bg-secondary'} mt-4 px-4  py-4 md:px-10 md:py-5 rounded-lg`}>
                         <p>
@@ -54,7 +55,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
             <div className={`w-full max-w-md ${darkMode ? 'text-black' : 'text-white'} font-robotoMono`}>
                 <h2 className={`${darkMode ? 'text-white' : 'text-black'} font-bold text-lg mb-2`}>Bad List</h2>
                 <hr className='border-gray-400 my-3' />
-                <table className={`w-full text-left rounded-lg overflow-hidden shadow-md ${darkMode ? 'bg-white' : 'bg-secondary'}`}>
+                {badList.length>0 && <table className={`w-full text-left rounded-lg overflow-hidden shadow-md ${darkMode ? 'bg-white' : 'bg-secondary'}`}>
                     <thead>
                         <tr className='border-b border-gray-300'>
                             <th className='px-4 py-2'>Task</th>
@@ -79,7 +80,8 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table>}
+                
                 {
                     saveHours ? <div className={`${darkMode? 'bg-white': 'bg-secondary'} mt-4 px-4  py-4 md:px-10 md:py-5 rounded-lg`}>
                         <p>

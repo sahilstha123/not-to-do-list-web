@@ -11,3 +11,13 @@ export const postTask = async (data) => {
         return error.response?.data
     }
 }
+
+export const fetchAllTasks = async()=>{
+    try {
+        const response = await axios.get(apiEndPoint)
+        return response.data
+    } catch (error) {
+        console.error( error.message)
+        
+    }
+}

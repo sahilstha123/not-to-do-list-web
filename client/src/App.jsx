@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid'
 import './App.css'
 import Form from './components/Form'
@@ -6,7 +6,7 @@ import Table from './components/Table'
 import DeleteConfirm from './components/ui/DeleteConfirm'
 import { useToast } from './components/ui/ToastContainer' // useToast hook only
 import Footer from './components/Footer'
-import { postTask } from './api/axios'
+import { fetchAllTasks, postTask } from './api/axios'
 
 function App() {
   const [darkMode, setDarkMode] = useState(true)
@@ -15,11 +15,16 @@ function App() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [taskToDelete, setTaskToDelete] = useState(null)
 
+  useEffect(() => {
+    getAllTasks()
+  }, [])
+  
+
   const userList = async (userObj) => {
     const response = await postTask(userObj)
     console.log("response from app", response)
     if (response?.success) {
-      setUserTasksList(prev => [...prev, response.data])
+      getAllTasks()
       addToast(`${response.message}`, "success")
       console.log("userList",userTasksList)
     }
@@ -37,7 +42,7 @@ function App() {
 
   const handleOnSwitch = (id, type) => {
     setUserTasksList(prev =>
-      prev.map(item => item.id === id ? { ...item, type } : item)
+      prev.map(item => item._id === id ? { ...item, type } : item)
     )
     addToast(`Task moved to ${type} list!`, "success")
   }
@@ -49,7 +54,7 @@ function App() {
 
   const confirmDelete = () => {
     setUserTasksList(prev =>
-      prev.filter(item => item.id !== taskToDelete)
+      prev.filter(item => item._id !== taskToDelete)
     )
     addToast("Task deleted successfully!", "error")
     setShowDeleteModal(false)
@@ -61,6 +66,11 @@ function App() {
     setTaskToDelete(null)
   }
 
+  const getAllTasks = async()=>{
+    const response = await fetchAllTasks()
+    response?.success && setUserTasksList(response.data)
+    console.log(response)
+  }
   return (
     // Root flex container
     <div className={`${darkMode ? 'bg-primary text-white' : 'bg-white text-black'} min-h-screen flex flex-col transition-colors duration-500`}>

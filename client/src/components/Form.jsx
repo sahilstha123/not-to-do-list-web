@@ -2,15 +2,12 @@ import React, { useState } from 'react'
 
 const Form = ({addUserList}) => {
   const [userTasks, setUserTasks] = useState({
-    id: "",
-    tasks: "",
-    hours: "",
-    type: "entry"
+    task: "",
+    hours: ""
 
   })
   const handleOnchange = (e)=>{
     const {name,value} =  e.target
-    console.log(e.target)
     setUserTasks((prevTask)=>({...prevTask,[name]:value}))
   }
   const handleOnsubmit = (e) => {
@@ -18,10 +15,8 @@ const Form = ({addUserList}) => {
   addUserList(userTasks)
   console.log("Submitted task:", userTasks) // <-- log current values
   setUserTasks({
-    id: "",
-    tasks: "",
-    hours: "",
-    type: "entry"
+    task: "",
+    hours: ""
   })
 }
 
@@ -30,8 +25,8 @@ const Form = ({addUserList}) => {
       <form className={`w-full max-w-3xl p-4 sm:p-6 rounded-lg shadow-md flex flex-col sm:flex-row gap-3 bg-white text-gray-600`} onSubmit={handleOnsubmit}>
         <input
           type="text"
-          name='tasks'
-          value={userTasks.tasks}
+          name='task'
+          value={userTasks.task}
           placeholder='Enter your tasks'
           className='flex-1 input-field'
           onChange={handleOnchange}
@@ -43,6 +38,8 @@ const Form = ({addUserList}) => {
           placeholder='hours'
           className='w-full sm:w-24 input-field'
           onChange={handleOnchange}
+          min={1}
+          max={24}
         />
         <button
           type="submit"

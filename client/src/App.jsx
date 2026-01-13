@@ -6,6 +6,7 @@ import Table from './components/Table'
 import DeleteConfirm from './components/ui/DeleteConfirm'
 import { useToast } from './components/ui/ToastContainer' // useToast hook only
 import Footer from './components/Footer'
+import { postTask } from './api/axios'
 
 function App() {
   const [darkMode, setDarkMode] = useState(true)
@@ -14,13 +15,24 @@ function App() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [taskToDelete, setTaskToDelete] = useState(null)
 
-  const userList = (userObj) => {
-    if (!userObj.tasks || !userObj.hours) {
-      addToast("Please enter task and hours!", "error")
-      return
+  const userList = async (userObj) => {
+    const response = await postTask(userObj)
+    console.log("response from app", response)
+    if (response?.success) {
+      setUserTasksList(prev => [...prev, response.data])
+      addToast(`${response.message}`, "success")
+      console.log("userList",userTasksList)
     }
-    setUserTasksList(prev => [...prev, { ...userObj, id: Date.now() }])
-    addToast("Task added successfully!", "success")
+    else {
+      if (response?.errors?.fieldErrors) {
+        Object.values(response.errors.fieldErrors)
+          .flat()
+          .forEach(err => addToast(err, "error"))
+      }
+      else {
+        addToast(`${response.message}`, "error")
+      }
+    }
   }
 
   const handleOnSwitch = (id, type) => {

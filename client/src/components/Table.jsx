@@ -24,15 +24,15 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                     </thead>
                     <tbody>
                         {entryList.map(item => (
-                            <tr key={item.id} className='border-b border-gray-300 hover:bg-gray-200/30 transition'>
-                                <td className='px-4 py-2'>{item.tasks}</td>
+                            <tr key={item._id} className='border-b border-gray-300 hover:bg-gray-200/30 transition'>
+                                <td className='px-4 py-2'>{item.task}</td>
                                 <td className='px-4 py-2'>{item.hours}</td>
                                 <td className='px-4 py-2 flex gap-2'>
                                     <button className='icon-button bg-red-500 '>
-                                        <TrashIcon className='w-5 h-5' onClick={() => handleOnDelete(item.id)} />
+                                        <TrashIcon className='w-5 h-5' onClick={() => handleOnDelete(item._id)} />
                                     </button>
                                     <button className='icon-button bg-blue-500'>
-                                        <ArrowRightIcon className='w-5 h-5' onClick={() => handleOnSwitch(item.id, "bad")} />
+                                        <ArrowRightIcon className='w-5 h-5' onClick={() => handleOnSwitch(item._id, "bad")} />
                                     </button>
                                 </td>
                             </tr>
@@ -65,15 +65,15 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                     <tbody>
 
                         {badList.map(item => (
-                            <tr key={item.id} className='border-b border-gray-300 hover:bg-gray-200/30 transition'>
-                                <td className='px-4 py-2'>{item.tasks}</td>
+                            <tr key={item._id} className='border-b border-gray-300 hover:bg-gray-200/30 transition'>
+                                <td className='px-4 py-2'>{item.task}</td>
                                 <td className='px-4 py-2'>{item.hours}</td>
                                 <td className='px-4 py-2 flex gap-2'>
                                     <button className='icon-button bg-red-500 '>
-                                        <TrashIcon className='w-5 h-5' onClick={() => handleOnDelete(item.id)} />
+                                        <TrashIcon className='w-5 h-5' onClick={() => handleOnDelete(item._id)} />
                                     </button>
                                     <button className='icon-button bg-green-500 '>
-                                        <ArrowLeftIcon className='w-5 h-5' onClick={() => handleOnSwitch(item.id, "entry")} />
+                                        <ArrowLeftIcon className='w-5 h-5' onClick={() => handleOnSwitch(item._id, "entry")} />
                                     </button>
                                 </td>
                             </tr>

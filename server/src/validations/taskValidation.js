@@ -11,7 +11,7 @@ const createTaskSchema = z.object({
     .min(3, "Task must be at least 3 characters")
     .max(100, "Task cannot exceed 100 characters"), 
   hours: z
-    .number({
+    .coerce.number({
       required_error: "Hours are required",
       invalid_type_error: "Hours must be a number",
     })

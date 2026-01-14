@@ -6,7 +6,7 @@ import Table from './components/Table'
 import DeleteConfirm from './components/ui/DeleteConfirm'
 import { useToast } from './components/ui/ToastContainer' // useToast hook only
 import Footer from './components/Footer'
-import { fetchAllTasks, postTask, updateTask } from './api/axios'
+import { deleteTask, fetchAllTasks, postTask, updateTask } from './api/axios'
 
 function App() {
   const [darkMode, setDarkMode] = useState(true)
@@ -18,7 +18,7 @@ function App() {
   useEffect(() => {
     getAllTasks()
   }, [])
-  
+
 
   const userList = async (userObj) => {
     const response = await postTask(userObj)
@@ -26,7 +26,7 @@ function App() {
     if (response?.success) {
       getAllTasks()
       addToast(`${response.message}`, "success")
-      console.log("userList",userTasksList)
+      console.log("userList", userTasksList)
     }
     else {
       if (response?.errors?.fieldErrors) {
@@ -40,23 +40,28 @@ function App() {
     }
   }
 
-  const handleOnSwitch = async(id, type) => {
-    const response = await updateTask(id,{type})
-    response?.data?.type && getAllTasks()
-    addToast(`${response.message}`,"success")
+  const handleOnSwitch = async (id, type) => {
+    const response = await updateTask(id, { type })
+    response?.success && getAllTasks()
+    addToast(`${response.message}`, "success")
     console.log("switch respone", response)
   }
 
-  const handleOnDeleteClick = (id) => {
+  const handleOnDeleteClick = async (id) => {
     setTaskToDelete(id)
     setShowDeleteModal(true)
   }
 
-  const confirmDelete = () => {
-    setUserTasksList(prev =>
-      prev.filter(item => item._id !== taskToDelete)
-    )
-    addToast("Task deleted successfully!", "error")
+  const confirmDelete = async () => {
+    const response = await deleteTask(taskToDelete)
+    if (response?.success)
+    {
+    addToast(response.message, "success")
+    getAllTasks()
+    }
+    else{
+      addToast(response.message,"error")
+    }
     setShowDeleteModal(false)
     setTaskToDelete(null)
   }
@@ -66,7 +71,7 @@ function App() {
     setTaskToDelete(null)
   }
 
-  const getAllTasks = async()=>{
+  const getAllTasks = async () => {
     const response = await fetchAllTasks()
     response?.success && setUserTasksList(response.data)
     console.log(response)

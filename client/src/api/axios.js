@@ -30,3 +30,12 @@ export const updateTask = async (id,data) => {
         console.error(error.message)
     }
 }
+
+export const deleteTask = async(id) =>{
+    try{
+        const response = await axios.delete(`${apiEndPoint}/${id}`)
+        return response.data
+    } catch(error){
+
+    }
+}

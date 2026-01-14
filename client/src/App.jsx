@@ -6,7 +6,7 @@ import Table from './components/Table'
 import DeleteConfirm from './components/ui/DeleteConfirm'
 import { useToast } from './components/ui/ToastContainer' // useToast hook only
 import Footer from './components/Footer'
-import { fetchAllTasks, postTask } from './api/axios'
+import { fetchAllTasks, postTask, updateTask } from './api/axios'
 
 function App() {
   const [darkMode, setDarkMode] = useState(true)
@@ -40,11 +40,11 @@ function App() {
     }
   }
 
-  const handleOnSwitch = (id, type) => {
-    setUserTasksList(prev =>
-      prev.map(item => item._id === id ? { ...item, type } : item)
-    )
-    addToast(`Task moved to ${type} list!`, "success")
+  const handleOnSwitch = async(id, type) => {
+    const response = await updateTask(id,{type})
+    response?.data?.type && getAllTasks()
+    addToast(`${response.message}`,"success")
+    console.log("switch respone", response)
   }
 
   const handleOnDeleteClick = (id) => {

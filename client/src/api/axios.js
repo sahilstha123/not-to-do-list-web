@@ -12,12 +12,21 @@ export const postTask = async (data) => {
     }
 }
 
-export const fetchAllTasks = async()=>{
+export const fetchAllTasks = async () => {
     try {
         const response = await axios.get(apiEndPoint)
         return response.data
     } catch (error) {
-        console.error( error.message)
-        
+        console.error(error.message)
+
+    }
+}
+
+export const updateTask = async (id,data) => {
+    try {
+        const response = await axios.patch(`${apiEndPoint}/${id}`,data)
+        return response.data
+    } catch (error) {
+        console.error(error.message)
     }
 }

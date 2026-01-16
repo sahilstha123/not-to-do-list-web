@@ -56,7 +56,7 @@ exports.updateTasks = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Type Update successfully",
+      message: "Task type Update successfully",
       data: updatedTask
     })
 

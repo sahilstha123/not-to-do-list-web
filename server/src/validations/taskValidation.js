@@ -3,13 +3,11 @@ const { z } = require("zod");
 // Schema for creating a new task
 const createTaskSchema = z.object({
   task: z
-    .string({
-      required_error: "Task is required",
-      invalid_type_error: "Task must be a string",
-    })
+    .string()
     .trim()
+    .min(1,"Task is required")
     .min(3, "Task must be at least 3 characters")
-    .max(100, "Task cannot exceed 100 characters"), 
+    .max(100, "Task cannot exceed 100 characters"),
   hours: z
     .coerce.number({
       required_error: "Hours are required",

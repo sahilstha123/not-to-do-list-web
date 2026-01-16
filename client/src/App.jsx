@@ -29,13 +29,16 @@ function App() {
       console.log("userList", userTasksList)
     }
     else {
-      if (response?.errors?.fieldErrors) {
-        Object.values(response.errors.fieldErrors)
-          .flat()
-          .forEach(err => addToast(err, "error"))
+      if (response?.error?.fieldErrors) {
+        // Object.values(response.error.fieldErrors).forEach(errors => {
+        //   addToast(errors[0], "error") 
+        // })
+        const firstFieldErrors = Object.values(response.error.fieldErrors)[0]
+        const firstErrorMessage = firstFieldErrors[0]
+        firstErrorMessage && addToast(firstErrorMessage,"error")
       }
       else {
-        addToast(`${response.message}`, "error")
+        addToast(response.message, "error")
       }
     }
   }
@@ -54,13 +57,12 @@ function App() {
 
   const confirmDelete = async () => {
     const response = await deleteTask(taskToDelete)
-    if (response?.success)
-    {
-    addToast(response.message, "success")
-    getAllTasks()
+    if (response?.success) {
+      addToast(response.message, "success")
+      getAllTasks()
     }
-    else{
-      addToast(response.message,"error")
+    else {
+      addToast(response.message, "error")
     }
     setShowDeleteModal(false)
     setTaskToDelete(null)

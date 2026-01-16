@@ -30,6 +30,7 @@ const Form = ({addUserList}) => {
           placeholder='Enter your tasks'
           className='flex-1 input-field'
           onChange={handleOnchange}
+          
         />
         <input
           type="number"
@@ -40,6 +41,7 @@ const Form = ({addUserList}) => {
           onChange={handleOnchange}
           min={1}
           max={24}
+          
         />
         <button
           type="submit"

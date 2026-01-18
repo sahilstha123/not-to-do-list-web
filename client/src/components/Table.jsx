@@ -32,55 +32,59 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
             <div className={`w-full max-w-md ${darkMode ? 'text-black' : 'text-white'} font-robotoMono`}>
                 <h2 className={`font-bold text-lg mb-2 ${darkMode ? 'text-white' : 'text-black'}`}>Entry List</h2>
                 <hr className='border-gray-400 my-3' />
+                {entryList.length > 0 && (<>
+                    <div className="flex items-center gap-2 mb-2">
+                        <input
+                            id="all-Entry"
+                            type="checkbox"
+                            value="allEntry"
+                            className="w-4 h-4 border border-white"
+                            checked={entryList.every(item => selectIds.includes(item._id))}
+                            onClick={() => handleOnSelectAllClick(entryList)}
 
-                <div className="flex items-center gap-2 mb-2">
-                    <input
-                        id="default-checkbox"
-                        type="checkbox"
-                        className="w-4 h-4 border border-white"
-                        checked={entryList.every(item => selectIds.includes(item._id))}
-                        onClick={() => handleOnSelectAllClick(entryList)}
-
-                    />
-                    <label
-                        htmlFor="default-checkbox"
-                        className="select-none text-white text-sm font-medium"
-                    >
-                        Select All
-                    </label>
-                </div>
-
-
-                {entryList.length > 0 && (<table className={`w-full text-left rounded-lg overflow-hidden shadow-md  ${darkMode ? 'bg-white' : 'bg-secondary'}`}>
-                    <thead>
-                        <tr className='border-b border-gray-300'>
-                            <th className='px-4 py-2'>
-                            </th>
-                            <th className='px-4 py-2'>Task</th>
-                            <th className='px-4 py-2'>Hours</th>
-                            <th className='px-4 py-2'>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {entryList.map(item => (
-                            <tr key={item._id} className='border-b border-gray-300 hover:bg-gray-200/30 transition'>
-                                <td className='px-4 py-2'><input type="checkbox" value="" className="w-4 h-4 border" onChange={() => handleOnSelectClick(item._id)}
-                                    checked={selectIds.includes(item._id)}
-                                /></td>
-                                <td className='px-4 py-2'>{item.task}</td>
-                                <td className='px-4 py-2'>{item.hours}</td>
-                                <td className='px-4 py-2 flex gap-2'>
-                                    <button className='icon-button bg-red-500 '>
-                                        <TrashIcon className='w-5 h-5' onClick={() => handleOnDelete(item._id)} />
-                                    </button>
-                                    <button className='icon-button bg-blue-500'>
-                                        <ArrowRightIcon className='w-5 h-5' onClick={() => handleOnSwitch(item._id, "bad")} />
-                                    </button>
-                                </td>
+                        />
+                        <label
+                            htmlFor="all-Entry"
+                            className="select-none text-white text-sm font-medium"
+                        >
+                            Select All
+                        </label>
+                    </div>
+                    <table className={`w-full text-left rounded-lg overflow-hidden shadow-md  ${darkMode ? 'bg-white' : 'bg-secondary'}`}>
+                        <thead>
+                            <tr className='border-b border-gray-300'>
+                                <th className='px-4 py-2'>
+                                </th>
+                                <th className='px-4 py-2'>Task</th>
+                                <th className='px-4 py-2'>Hours</th>
+                                <th className='px-4 py-2'>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>)}
+                        </thead>
+                        <tbody>
+                            {entryList.map(item => (
+                                <tr key={item._id} className='border-b border-gray-300 hover:bg-gray-200/30 transition'>
+                                    <td className='px-4 py-2'>
+                                        <input type="checkbox"
+                                            value={item?._id}
+                                            className="w-4 h-4 border"
+                                            onChange={() => handleOnSelectClick(item._id)}
+                                            checked={selectIds.includes(item._id)}
+                                        /></td>
+                                    <td className='px-4 py-2'>{item.task}</td>
+                                    <td className='px-4 py-2'>{item.hours}</td>
+                                    <td className='px-4 py-2 flex gap-2'>
+                                        <button className='icon-button bg-red-500 '>
+                                            <TrashIcon className='w-5 h-5' onClick={() => handleOnDelete(item._id)} />
+                                        </button>
+                                        <button className='icon-button bg-blue-500'>
+                                            <ArrowRightIcon className='w-5 h-5' onClick={() => handleOnSwitch(item._id, "bad")} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </>)}
 
                 {
                     TotalHours ? <div className={`${darkMode ? 'bg-white' : 'bg-secondary'} mt-4 px-4  py-4 md:px-10 md:py-5 rounded-lg`}>
@@ -99,7 +103,8 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                 <hr className='border-gray-400 my-3' />
                 <div className="flex items-center gap-2 mb-2">
                     <input
-                        id="default-checkbox"
+                        id="all-bad"
+                        value="allBad"
                         type="checkbox"
                         className="w-4 h-4 border border-white"
                         onClick={() => handleOnSelectAllClick(badList)}
@@ -107,7 +112,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
 
                     />
                     <label
-                        htmlFor="default-checkbox"
+                        htmlFor="all-bad"
                         className="select-none text-white text-sm font-medium"
                     >
                         Select All
@@ -126,10 +131,13 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
 
                         {badList.map(item => (
                             <tr key={item._id} className='border-b border-gray-300 hover:bg-gray-200/30 transition'>
-                                <td className='px-4 py-2'><input type="checkbox" value="" className="w-4 h-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft"
-                                    onChange={() => handleOnSelectClick(item._id)}
-                                    checked={selectIds.includes(item._id)}
-                                ></input>
+                                <td className='px-4 py-2'>
+                                    <input type="checkbox"
+                                        value={item?._id}
+                                        className="w-4 h-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft"
+                                        onChange={() => handleOnSelectClick(item._id)}
+                                        checked={selectIds.includes(item._id)}
+                                    ></input>
                                 </td>
                                 <td className='px-4 py-2'>{item.task}</td>
                                 <td className='px-4 py-2'>{item.hours}</td>

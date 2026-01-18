@@ -76,7 +76,6 @@ function App() {
   const getAllTasks = async () => {
     const response = await fetchAllTasks()
     response?.success && setUserTasksList(response.data)
-    console.log(response)
   }
   return (
     // Root flex container

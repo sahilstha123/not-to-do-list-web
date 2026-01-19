@@ -1,45 +1,39 @@
 import React from 'react'
-import { TrashIcon, ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/solid'
+import { TrashIcon, ArrowRightIcon, ArrowLeftIcon} from '@heroicons/react/24/solid'
 import { useState } from 'react'
 
-
-
-const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
+const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, handleBulkDelete  }) => {
     const badList = userTasksList.filter((item) => item.type === "bad")
     const entryList = userTasksList.filter((item) => item.type === "entry")
     const saveHours = badList.reduce((acc, curr) => acc + +curr.hours, 0)
     const TotalHours = entryList.reduce((acc, curr) => acc + +curr.hours, 0)
     const [toDelete, setToDelete] = useState([])
 
-    const handleOnSelect = (e) => {
-        const { checked, value } = e.target
-        console.log("----select", checked, value)
 
-        let tempArg = []
-        if(value === "allEntry")
-        {
-            tempArg = entryList
-        }
-        if(value === "allBad")
-        {
-            tempArg = badList
-        }
+    const handleOnSelect = (e) => {
+        const { checked, value } = e.target;
+
+        let tempArg = [];
+        if (value === "allEntry") tempArg = entryList;
+        if (value === "allBad") tempArg = badList;
+
         if (value === "allEntry" || value === "allBad") {
-            const ids = tempArg.map(item => item._id)
+            const ids = tempArg.map(item => item._id);
             setToDelete(prev =>
                 checked
                     ? [...new Set([...prev, ...ids])]
                     : prev.filter(id => !ids.includes(id))
-            )
+            );
             return;
         }
+
         setToDelete(prev =>
-            checked
-                ? [...prev, value]
-                : prev.filter(_id => _id !== value)
-        )
-    }
+            checked ? [...prev, value] : prev.filter(id => id !== value)
+        );
+    };
+
     console.log(toDelete)
+
 
     return (
         <div className='flex flex-wrap justify-center gap-10 mt-8 w-full px-6'>
@@ -54,7 +48,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                             type="checkbox"
                             value="allEntry"
                             className="w-4 h-4 border border-white"
-                            checked={entryList.length>0 && entryList.every(item => toDelete.includes(item._id))}
+                            checked={entryList.length > 0 && entryList.every(item => toDelete.includes(item._id))}
                             // onClick={() => handleOnSelectAllClick(entryList)}
                             onChange={handleOnSelect}
 
@@ -127,7 +121,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                                 id="all-bad"
                                 value="allBad"
                                 type="checkbox"
-                                checked = {badList.every(item=>toDelete.includes(item._id))}
+                                checked={badList.every(item => toDelete.includes(item._id))}
                                 className="w-4 h-4 border border-white"
                                 onChange={handleOnSelect}
                             // onClick={() => handleOnSelectAllClick(badList)}
@@ -182,7 +176,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                 }
 
                 {
-                    saveHours ? <div className={`${darkMode ? 'bg-white' : 'bg-secondary'} mt-4 px-4  py-4 md:px-10 md:py-5 rounded-lg`}>
+                    saveHours ? <div className={`${darkMode ? 'bg-white' : 'bg-secondary'} my-4 px-4  py-4 md:px-10 md:py-5 rounded-lg`}>
                         <p>
                             {saveHours ? `You Could Have Saved = ${saveHours} hrs` : null}
                         </p>
@@ -191,8 +185,13 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                 }
 
             </div>
-
-
+            {toDelete.length > 0
+                && (<div className='w-full flex  justify-center mb-4'>
+                    <button className='bg-red-500 px-2 py-3 icon-button hover:bg-red-600'
+                        onClick={() => handleBulkDelete(toDelete)}>
+                        Delete {toDelete.length} tasks
+                    </button>
+                </div>)}
         </div>
     )
 }

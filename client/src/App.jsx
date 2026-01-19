@@ -35,7 +35,7 @@ function App() {
         // })
         const firstFieldErrors = Object.values(response.error.fieldErrors)[0]
         const firstErrorMessage = firstFieldErrors[0]
-        firstErrorMessage && addToast(firstErrorMessage,"error")
+        firstErrorMessage && addToast(firstErrorMessage, "error")
       }
       else {
         addToast(response.message, "error")
@@ -104,6 +104,10 @@ function App() {
           userTasksList={userTasksList}
           handleOnSwitch={handleOnSwitch}
           handleOnDelete={handleOnDeleteClick}
+          handleBulkDelete={(ids) => {
+            setTaskToDelete(ids);
+            setShowDeleteModal(true);
+          }}
         />
 
         {/* Delete Modal */}

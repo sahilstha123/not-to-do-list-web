@@ -15,8 +15,17 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
         const { checked, value } = e.target
         console.log("----select", checked, value)
 
-        if (value === "allEntry") {
-            const ids = entryList.map(item => item._id)
+        let tempArg = []
+        if(value === "allEntry")
+        {
+            tempArg = entryList
+        }
+        if(value === "allBad")
+        {
+            tempArg = badList
+        }
+        if (value === "allEntry" || value === "allBad") {
+            const ids = tempArg.map(item => item._id)
             setToDelete(prev =>
                 checked
                     ? [...new Set([...prev, ...ids])]
@@ -118,6 +127,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                                 id="all-bad"
                                 value="allBad"
                                 type="checkbox"
+                                checked = {badList.every(item=>toDelete.includes(item._id))}
                                 className="w-4 h-4 border border-white"
                                 onChange={handleOnSelect}
                             // onClick={() => handleOnSelectAllClick(badList)}
@@ -147,6 +157,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete }) => {
                                         <td className='px-4 py-2'>
                                             <input type="checkbox"
                                                 value={item?._id}
+                                                checked={toDelete.includes(item._id)}
                                                 className="w-4 h-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft"
                                                 onChange={handleOnSelect}
                                             // onChange={() => handleOnSelectClick(item._id)}

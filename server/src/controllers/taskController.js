@@ -68,20 +68,25 @@ exports.deleteTasks = async (req, res) => {
 
   const ids = req.body
 
+  if(!Array.isArray(ids) || ids.length === 0)
+  {
+    return res.status(400).json({
+      success: false,
+      message: "Please provide task Ids"
+    })
+  }
+
   const deletedTask = await TaskCollection.deleteMany({ _id: { $in: ids } })
   console.log(deletedTask)
-  deletedTask?.deletedCount &&  
-  
-  // if (!deletedTask)
-  //   return res.status(404).json({
-  //     success: false,
-  //     message: "Task Not found"
-  //   })
-
+  deletedTask?.deletedCount ? 
   res.status(200).json({
     success: true,
     message: "Task deleted successfully",
     data: deletedTask
 
+  })
+  : res.status(404).json({
+    success: false,
+    message: "Task not found"
   })
 }

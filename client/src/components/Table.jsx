@@ -2,7 +2,7 @@ import React from 'react'
 import { TrashIcon, ArrowRightIcon, ArrowLeftIcon} from '@heroicons/react/24/solid'
 import { useState } from 'react'
 
-const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, handleBulkDelete  }) => {
+const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, }) => {
     const badList = userTasksList.filter((item) => item.type === "bad")
     const entryList = userTasksList.filter((item) => item.type === "entry")
     const saveHours = badList.reduce((acc, curr) => acc + +curr.hours, 0)
@@ -32,7 +32,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, handle
         );
     };
 
-    console.log(toDelete)
+    console.log("todeltet",toDelete)
 
 
     return (
@@ -188,7 +188,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, handle
             {toDelete.length > 0
                 && (<div className='w-full flex  justify-center mb-4'>
                     <button className='bg-red-500 px-2 py-3 icon-button hover:bg-red-600'
-                        onClick={() => handleBulkDelete(toDelete)}>
+                        onClick={() => handleOnDelete(toDelete)}>
                         Delete {toDelete.length} tasks
                     </button>
                 </div>)}

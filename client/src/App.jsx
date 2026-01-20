@@ -106,7 +106,6 @@ function App() {
           userTasksList={userTasksList}
           handleOnSwitch={handleOnSwitch}
           handleOnDelete={handleOnDeleteClick}
-
         />
 
         {/* Delete Modal */}

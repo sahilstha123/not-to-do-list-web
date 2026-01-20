@@ -1,8 +1,10 @@
 import React from 'react'
-import { TrashIcon, ArrowRightIcon, ArrowLeftIcon} from '@heroicons/react/24/solid'
+import { TrashIcon, ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 
+
 const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, }) => {
+
     const badList = userTasksList.filter((item) => item.type === "bad")
     const entryList = userTasksList.filter((item) => item.type === "entry")
     const saveHours = badList.reduce((acc, curr) => acc + +curr.hours, 0)

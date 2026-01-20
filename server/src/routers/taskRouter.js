@@ -15,6 +15,6 @@ router.post("/", validateRequest(createTaskSchema), asyncHandler(createTasks));
 
 router.patch("/:id", validateObjectId, validateRequest(updateTaskSchema), asyncHandler(updateTasks));
 
-router.delete("/:id", validateObjectId, asyncHandler(deleteTasks));
+router.delete("/", asyncHandler(deleteTasks));
 
 module.exports = router;

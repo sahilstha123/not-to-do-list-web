@@ -1,13 +1,13 @@
 const TaskCollection = require("../models/Task.js")
 // get all the tasks
 exports.getTasks = async (req, res) => {
-  
-    const tasks = await TaskCollection.find()
-    res.status(200).json({
-      success: true,
-      message: "Data fetched successfully",
-      data: tasks
-    })
+
+  const tasks = await TaskCollection.find()
+  res.status(200).json({
+    success: true,
+    message: "Data fetched successfully",
+    data: tasks
+  })
 
 }
 
@@ -15,50 +15,50 @@ exports.getTasks = async (req, res) => {
 
 exports.createTasks = async (req, res) => {
 
-    const { task, hours, } = req.body
-  
-    const existingTask = await TaskCollection.findOne({ task: task.trim() })
-    if (existingTask)
-      return res.status(409).json({
-        success: false,
-        message: "Task already exist"
-      })
-    const newTask = await TaskCollection.create({
-      task: task.trim(),
-      hours,
+  const { task, hours, } = req.body
 
+  const existingTask = await TaskCollection.findOne({ task: task.trim() })
+  if (existingTask)
+    return res.status(409).json({
+      success: false,
+      message: "Task already exist"
     })
-    console.log("new Task", newTask)
-    res.status(201).json({
-      success: true,
-      message: "New tasks has been added successfully",
-      data: newTask
-    })
+  const newTask = await TaskCollection.create({
+    task: task.trim(),
+    hours,
+
+  })
+  console.log("new Task", newTask)
+  res.status(201).json({
+    success: true,
+    message: "New tasks has been added successfully",
+    data: newTask
+  })
 
 }
 
 // update a tasks
 exports.updateTasks = async (req, res) => {
 
-    const { id } = req.params
-    const { type } = req.body
+  const { id } = req.params
+  const { type } = req.body
 
-    const updatedTask = await TaskCollection.findByIdAndUpdate(id,
-      { type },
-      { new: true, runValidators: true }
-    )
+  const updatedTask = await TaskCollection.findByIdAndUpdate(id,
+    { type },
+    { new: true, runValidators: true }
+  )
 
-    if (!updatedTask)
-      return res.status(404).json({
-        success: false,
-        message: "Task not found"
-      })
-
-    res.status(200).json({
-      success: true,
-      message: "Task type Update successfully",
-      data: updatedTask
+  if (!updatedTask)
+    return res.status(404).json({
+      success: false,
+      message: "Task not found"
     })
+
+  res.status(200).json({
+    success: true,
+    message: "Task type Update successfully",
+    data: updatedTask
+  })
 
 }
 
@@ -66,20 +66,27 @@ exports.updateTasks = async (req, res) => {
 
 exports.deleteTasks = async (req, res) => {
 
-    const { id } = req.params
+  const ids = req.body
 
-    const deletedTask = await TaskCollection.findByIdAndDelete(id)
-
-    if (!deletedTask)
-      return res.status(404).json({
-        success: false,
-        message: "Task Not found"
-      })
-
-    res.status(200).json({
-      success: true,
-      message: "Task deleted successfully",
-      data: deletedTask
-
+  if(!Array.isArray(ids) || ids.length === 0)
+  {
+    return res.status(400).json({
+      success: false,
+      message: "Please provide task Ids"
     })
+  }
+
+  const deletedTask = await TaskCollection.deleteMany({ _id: { $in: ids } })
+  console.log(deletedTask)
+  deletedTask?.deletedCount ? 
+  res.status(200).json({
+    success: true,
+    message: "Task deleted successfully",
+    data: deletedTask
+
+  })
+  : res.status(404).json({
+    success: false,
+    message: "Task not found"
+  })
 }

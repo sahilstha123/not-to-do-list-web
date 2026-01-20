@@ -50,8 +50,8 @@ function App() {
     console.log("switch respone", response)
   }
 
-  const handleOnDeleteClick = async (id) => {
-    setTaskToDelete(id)
+  const handleOnDeleteClick = async (ids) => {
+    setTaskToDelete(Array.isArray(ids) ? ids : [ids])
     setShowDeleteModal(true)
   }
 
@@ -104,10 +104,7 @@ function App() {
           userTasksList={userTasksList}
           handleOnSwitch={handleOnSwitch}
           handleOnDelete={handleOnDeleteClick}
-          handleBulkDelete={(ids) => {
-            setTaskToDelete(ids);
-            setShowDeleteModal(true);
-          }}
+          
         />
 
         {/* Delete Modal */}

@@ -44,10 +44,11 @@ export const updateTask = async (id, data) => {
     })
 }
 
-export const deleteTask = async (id) => {
+export const deleteTask = async (ids) => {
     
     return apiProcessor({
         method: "delete",
-        url: `${apiEndPoint}/${id}`
+        url: apiEndPoint,
+        data: ids
     })
 }

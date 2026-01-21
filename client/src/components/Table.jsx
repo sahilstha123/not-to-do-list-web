@@ -1,40 +1,17 @@
 import React from 'react'
 import { TrashIcon, ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/solid'
-import { useState } from 'react'
 
 
-const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, }) => {
-
-    const badList = userTasksList.filter((item) => item.type === "bad")
-    const entryList = userTasksList.filter((item) => item.type === "entry")
-    const saveHours = badList.reduce((acc, curr) => acc + +curr.hours, 0)
-    const TotalHours = entryList.reduce((acc, curr) => acc + +curr.hours, 0)
-    const [toDelete, setToDelete] = useState([])
-
-
-    const handleOnSelect = (e) => {
-        const { checked, value } = e.target;
-
-        let tempArg = [];
-        if (value === "allEntry") tempArg = entryList;
-        if (value === "allBad") tempArg = badList;
-
-        if (value === "allEntry" || value === "allBad") {
-            const ids = tempArg.map(item => item._id);
-            setToDelete(prev =>
-                checked
-                    ? [...new Set([...prev, ...ids])]
-                    : prev.filter(id => !ids.includes(id))
-            );
-            return;
-        }
-
-        setToDelete(prev =>
-            checked ? [...prev, value] : prev.filter(id => id !== value)
-        );
-    };
-
-    console.log("todeltet",toDelete)
+const Table = ({
+    darkMode,
+    handleOnSwitch,
+    handleOnDelete,
+    badList,
+    entryList,
+    saveHours,
+    TotalHours,
+    toDelete,
+    handleOnSelect }) => {
 
 
     return (
@@ -52,7 +29,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, }) => 
                             className="w-4 h-4 border border-white"
                             checked={entryList.length > 0 && entryList.every(item => toDelete.includes(item._id))}
                             // onClick={() => handleOnSelectAllClick(entryList)}
-                            onChange={handleOnSelect}
+                            onChange={(e) => { e.stopPropagation(); handleOnSelect(e) }}
 
                         />
                         <label
@@ -79,7 +56,7 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, }) => 
                                         <input type="checkbox"
                                             value={item?._id}
                                             className="w-4 h-4 border"
-                                            onChange={handleOnSelect}
+                                            onChange={(e) => { e.stopPropagation(); handleOnSelect(e) }}
                                             checked={toDelete.includes(item._id)}
                                         // onChange={() => handleOnSelectClick(item._id)}
                                         // checked={selectIds.includes(item._id)}
@@ -125,7 +102,8 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, }) => 
                                 type="checkbox"
                                 checked={badList.every(item => toDelete.includes(item._id))}
                                 className="w-4 h-4 border border-white"
-                                onChange={handleOnSelect}
+                                onChange={(e) => { e.stopPropagation(); handleOnSelect(e) }}
+
                             // onClick={() => handleOnSelectAllClick(badList)}
                             // checked={badList.every(item => selectIds.includes(item._id))}
 
@@ -155,7 +133,8 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, }) => 
                                                 value={item?._id}
                                                 checked={toDelete.includes(item._id)}
                                                 className="w-4 h-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft"
-                                                onChange={handleOnSelect}
+                                                onChange={(e) => { e.stopPropagation(); handleOnSelect(e) }}
+
                                             // onChange={() => handleOnSelectClick(item._id)}
                                             // checked={selectIds.includes(item._id)}
                                             ></input>
@@ -164,10 +143,10 @@ const Table = ({ darkMode, userTasksList, handleOnSwitch, handleOnDelete, }) => 
                                         <td className='px-4 py-2'>{item.hours}</td>
                                         <td className='px-4 py-2 flex gap-2'>
                                             <button className='icon-button bg-red-500 '>
-                                                <TrashIcon className='w-5 h-5' onClick={() => handleOnDelete(item._id)} />
+                                                <TrashIcon className='w-5 h-5' onClick={(e) => { e.stopPropagation(); handleOnDelete(item._id) }} />
                                             </button>
                                             <button className='icon-button bg-green-500 '>
-                                                <ArrowLeftIcon className='w-5 h-5' onClick={() => handleOnSwitch(item._id, "entry")} />
+                                                <ArrowLeftIcon className='w-5 h-5' onClick={(e) => { e.stopPropagation(); handleOnSwitch(item._id, "entry") }} />
                                             </button>
                                         </td>
                                     </tr>

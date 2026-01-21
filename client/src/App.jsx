@@ -15,9 +15,22 @@ function App() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [taskToDelete, setTaskToDelete] = useState(null)
 
+  const badList = userTasksList.filter((item) => item.type === "bad")
+  const entryList = userTasksList.filter((item) => item.type === "entry")
+  const saveHours = badList.reduce((acc, curr) => acc + +curr.hours, 0)
+  const TotalHours = entryList.reduce((acc, curr) => acc + +curr.hours, 0)
+  const [toDelete, setToDelete] = useState([])
   useEffect(() => {
     getAllTasks()
   }, [])
+
+  useEffect(() => {
+  setToDelete(prev =>
+    prev.filter(id =>
+      userTasksList.some(task => task._id === id)
+    )
+  )
+}, [userTasksList])
 
 
   const userList = async (userObj) => {
@@ -60,6 +73,7 @@ function App() {
     const response = await deleteTask(taskToDelete)
     console.log("delete response", response)
     if (response?.success) {
+      setToDelete([])
       addToast(response.message, "success")
       getAllTasks()
     }
@@ -79,6 +93,30 @@ function App() {
     const response = await fetchAllTasks()
     response?.success && setUserTasksList(response.data)
   }
+
+  const handleOnSelect = (e) => {
+    const { checked, value } = e.target;
+
+    let tempArg = [];
+    if (value === "allEntry") tempArg = entryList;
+    if (value === "allBad") tempArg = badList;
+
+    if (value === "allEntry" || value === "allBad") {
+      const ids = tempArg.map(item => item._id);
+      setToDelete(prev =>
+        checked
+          ? [...new Set([...prev, ...ids])]
+          : prev.filter(id => !ids.includes(id))
+      );
+      return;
+    }
+
+    setToDelete(prev =>
+      checked ? [...prev, value] : prev.filter(id => id !== value)
+    );
+  };
+
+  console.log("todeltet", toDelete)
   return (
     // Root flex container
     <div className={`${darkMode ? 'bg-primary text-white' : 'bg-white text-black'} min-h-screen flex flex-col transition-colors duration-500`}>
@@ -106,6 +144,12 @@ function App() {
           userTasksList={userTasksList}
           handleOnSwitch={handleOnSwitch}
           handleOnDelete={handleOnDeleteClick}
+          toDelete = {toDelete}
+          handleOnSelect = {handleOnSelect}
+          entryList = {entryList}
+          badList = {badList}
+          saveHours = {saveHours}
+          TotalHours = {TotalHours}
         />
 
         {/* Delete Modal */}

@@ -1,6 +1,7 @@
 import axios from "axios"
-const apiEndPoint = "http://localhost:8001/api/v1/tasks"
+const apiEndPoint = import.meta.env.NODE_ENV ? "/api/v1/tasks" : "http://localhost:8001/api/v1/tasks"
 
+console.log("import",import.meta.env.NODE_ENV)
 const apiProcessor = async ({ method, url, data }) => {
     try {
         const response = await axios({
@@ -10,16 +11,16 @@ const apiProcessor = async ({ method, url, data }) => {
         })
         return response.data
     } catch (error) {
-        console.error("error",error)
+        console.error("error", error)
         return {
-            success:false,
+            success: false,
             message: error?.response?.data?.message || error.message || "Something went wrong",
-            error : error?.response?.data?.errors || null
+            error: error?.response?.data?.errors || null
         }
     }
 }
 export const postTask = async (data) => {
-    
+
     return apiProcessor({
         method: "post",
         url: apiEndPoint,
@@ -35,7 +36,7 @@ export const fetchAllTasks = async () => {
 }
 
 export const updateTask = async (id, data) => {
-    
+
     return apiProcessor({
         method: "patch",
         url: `${apiEndPoint}/${id}`,
@@ -45,7 +46,7 @@ export const updateTask = async (id, data) => {
 }
 
 export const deleteTask = async (ids) => {
-    
+
     return apiProcessor({
         method: "delete",
         url: apiEndPoint,

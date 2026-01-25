@@ -53,9 +53,9 @@ npm run dev
 ```
 
 ## Project Live
-```bash 
-https://not-to-do-list-web.onrender.com/
-```
+
+🔗 [Live Demo](https://not-to-do-list-web.onrender.com/)
+
 
 ## Author
 
